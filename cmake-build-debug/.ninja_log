@@ -1,0 +1,6 @@
+# ninja log v5
+0	1023	7426923290347628	CMakeFiles/VulkanParticleDemo.dir/main.cpp.obj	3a4d8a417b136a60
+1024	1248	7426923292450026	VulkanParticleDemo.exe	c9cf84af1a35a685
+4	148	7426925044198916	build.ninja	9a879b35ef36e60c
+0	1116	7426925055857762	CMakeFiles/VulkanParticleDemo.dir/src/main.cpp.obj	1f693cb5df421dd3
+1116	1265	7426925057038871	VulkanParticleDemo.exe	41bea47dfd7ebcaf
