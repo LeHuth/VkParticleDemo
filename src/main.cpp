@@ -13,6 +13,16 @@
 #include <cstdint> // Necessary for uint32_t
 #include <limits> // Necessary for std::numeric_limits
 #include <algorithm> // Necessary for std::clamp
+#include <string.h>
+
+bool isMacOS()
+{
+#ifdef __APPLE__
+    return true;
+#else
+    return false;
+#endif
+}
 
 const uint32_t WIDTH = 800;
 const uint32_t HEIGHT = 600;
@@ -21,10 +31,13 @@ const std::vector<const char*> validationLayers = {
     "VK_LAYER_KHRONOS_validation"
 };
 
-const std::vector<const char*> deviceExtensions = {
-    VK_KHR_SWAPCHAIN_EXTENSION_NAME,
-    "VK_KHR_portability_subset"
-};
+const std::vector<const char*> deviceExtensions = isMacOS() ?
+    std::vector<const char*>{
+        VK_KHR_SWAPCHAIN_EXTENSION_NAME,
+        "VK_KHR_portability_subset"} :
+    std::vector<const char*>{
+        VK_KHR_SWAPCHAIN_EXTENSION_NAME
+    };
 
 #ifdef NDEBUG
 const bool enableValidationLayers = false;
@@ -57,14 +70,7 @@ void DestroyDebugUtilsMessengerEXT(VkInstance instance, VkDebugUtilsMessengerEXT
     }
 }
 
-bool isMacOS()
-{
-#ifdef __APPLE__
-    return true;
-#else
-    return false;
-#endif
-}
+
 
 static std::vector<char> readFile(const std::string& filename)
 {
@@ -653,6 +659,10 @@ private:
 
         for (const auto& device : devices)
         {
+            VkPhysicalDeviceProperties deviceProps;
+            vkGetPhysicalDeviceProperties(device, &deviceProps);
+            std::cout << "Checking device: " << deviceProps.deviceName << std::endl;
+
             if (isDeviceSuitable(device))
             {
                 physicalDevice = device;
@@ -662,7 +672,8 @@ private:
 
         if (physicalDevice == VK_NULL_HANDLE)
         {
-            throw std::runtime_error("failed to find a suitable GPU!");
+            physicalDevice = devices[0];
+            //throw std::runtime_error("failed to find a suitable GPU\!");
         }
     }
 
@@ -724,7 +735,7 @@ private:
         auto extensions = getRequiredExtensions();
 
         // Check if the platform is Apple and enable VK_KHR_portability_enumeration extension
-        if (true)
+        if (isMacOS())
         {
             // You can implement this helper function to check macOS
             extensions.push_back(VK_KHR_PORTABILITY_ENUMERATION_EXTENSION_NAME);

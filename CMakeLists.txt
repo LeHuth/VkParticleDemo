@@ -39,4 +39,10 @@ set(SHADER_SOURCES
     )
 
 include("cmake/compileGLSL.cmake")
-APPEND_GLSL_TO_TARGET( ${PROJECT_NAME})
+include("cmake/compileGLSLWin.cmake")
+message(STATUS ${PROJECT_NAME})
+if(APPLE)
+    APPEND_GLSL_TO_TARGET(${PROJECT_NAME})
+else()
+    APPEND_GLSL_TO_TARGET_WIN(${PROJECT_NAME})
+endif()
