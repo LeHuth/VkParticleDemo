@@ -1,7 +1,9 @@
 
-set(GLSL_VALIDATOR glslangValidator.exe)
+
 
 macro(APPEND_GLSL_TO_TARGET_WIN target)
+    set(GLSL_VALIDATOR glslangValidator.exe)
+    message(STATUS "APPENDING GLSL WIN TO TARGET")
     file(GLOB_RECURSE GLSL_SOURCE_FILES
             "shaders/*.frag"
             "shaders/*.vert"

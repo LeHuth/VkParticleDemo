@@ -1,7 +1,8 @@
-set(GLSL_VALIDATOR /usr/local/bin/glslangValidator)
 
 macro(APPEND_GLSL_TO_TARGET target)
+    set(GLSL_VALIDATOR /usr/local/bin/glslangValidator)
 
+    message(STATUS "APPENDING GLSL TO TARGET")
     file(GLOB_RECURSE GLSL_SOURCE_FILES
             "shaders/*.frag"
             "shaders/*.vert"
