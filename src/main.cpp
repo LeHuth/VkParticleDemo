@@ -627,18 +627,20 @@ void createGraphicsPipeline() {
         }
 
         vkDestroySwapchainKHR(device, swapChain, nullptr);
-
+        vkDestroyPipelineLayout(device, pipelineLayout, nullptr);
+        vkDestroyPipeline(device, graphicsPipeline, nullptr);
+        vkDestroyRenderPass(device, renderPass, nullptr);
         vkDestroyDevice(device, nullptr);
 
         if (enableValidationLayers)
         {
             DestroyDebugUtilsMessengerEXT(instance, debugMessenger, nullptr);
         }
-        vkDestroyPipelineLayout(device, pipelineLayout, nullptr);
-        vkDestroyRenderPass(device, renderPass, nullptr);
+
+
         vkDestroySurfaceKHR(instance, surface, nullptr);
-        vkDestroyPipeline(device, graphicsPipeline, nullptr);
-        vkDestroyPipelineLayout(device, pipelineLayout, nullptr);
+
+        //vkDestroyPipelineLayout(device, pipelineLayout, nullptr);
 
         vkDestroyInstance(instance, nullptr);
 
