@@ -32,6 +32,31 @@ const std::vector<const char*> validationLayers = {
     "VK_LAYER_KHRONOS_validation"
 };
 
+struct Vertex
+{
+    glm::vec2 pos;
+    glm::vec3 color;
+
+
+    static VkVertexInputBindingDescription getBindingDescription()
+    {
+        VkVertexInputBindingDescription bindingDescription{};
+
+        bindingDescription.binding = 0;
+        bindingDescription.stride = sizeof(Vertex);
+        bindingDescription.inputRate = VK_VERTEX_INPUT_RATE_VERTEX;
+
+        return bindingDescription;
+    }
+};
+
+
+const std::vector<Vertex> vertices = {
+    {{0.0f, -0.5f}, {1.0f, 0.0f, 0.0f}},
+    {{0.5f, 0.5f}, {0.0f, 1.0f, 0.0f}},
+    {{-0.5f, 0.5f}, {0.0f, 0.0f, 1.0f}}
+};
+
 const std::vector<const char*> deviceExtensions = isMacOS()
                                                       ? std::vector<const char*>{
                                                           VK_KHR_SWAPCHAIN_EXTENSION_NAME,
@@ -43,7 +68,7 @@ const std::vector<const char*> deviceExtensions = isMacOS()
 
 #ifdef NDEBUG
 const bool enableValidationLayers = false;
-#else
+else
 const bool enableValidationLayers = true;
 #endif
 
