@@ -1,4 +1,6 @@
 #include "../include/app.h"
+
+#include <stdexcept>
 //
 // Created by Leo on 02.04.25.
 //
@@ -20,7 +22,6 @@ void VkApp::run()
 
 void VkApp::initWindow()
 {
-
 }
 
 void VkApp::initVulkan()
@@ -42,12 +43,10 @@ void VkApp::initVulkan()
 
 void VkApp::mainLoop()
 {
-
 }
 
 void VkApp::cleanup()
 {
-
 }
 
 void VkApp::createInstance()

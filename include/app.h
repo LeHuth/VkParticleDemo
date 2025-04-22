@@ -7,14 +7,22 @@
 #include <vector>
 #include <GLFW/glfw3.h>
 #include <vulkan/vulkan_core.h>
+
 namespace sph
 {
     const std::vector<const char*> validationLayers = {
         "VK_LAYER_KHRONOS_validation"
     };
+
     class VkApp
     {
     public:
+        static constexpr bool enableValidationLayers =
+#ifdef NDEBUG
+    false;
+#else
+            true;
+#endif
         VkApp() :
             _window(nullptr),
             _instance(nullptr),
@@ -35,9 +43,11 @@ namespace sph
             _swapChain(nullptr),
             _swapChainImageFormat(VK_FORMAT_R8G8B8A8_SRGB),
             _swapChainExtent({})
-        {}
+        {
+        }
 
         void run();
+
     private:
         GLFWwindow* _window;
         VkInstance _instance;
