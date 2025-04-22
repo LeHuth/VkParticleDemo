@@ -4,7 +4,8 @@ project(VulkanParticleDemo)
 set(CMAKE_CXX_STANDARD 23)
 
 add_executable(VulkanParticleDemo src/main.cpp
-        include/app.h)
+        include/app.h
+        src/app.cpp)
 
 # Find Vulkan
 find_package(Vulkan REQUIRED)
