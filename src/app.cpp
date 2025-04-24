@@ -27,7 +27,7 @@ void VkApp::initWindow()
 void VkApp::initVulkan()
 {
     createInstance();
-    //setupDebugMessenger();
+    setupDebugMessenger();
     /*createSurface();
     pickPhysicalDevice();
     createLogicalDevice();
@@ -55,6 +55,10 @@ void VkApp::createInstance()
     {
         throw std::runtime_error("validation layers requested, but not available!");
     }
+}
+
+void VkApp::setupDebugMessenger()
+{
 }
 
 
