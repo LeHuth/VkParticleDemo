@@ -8,14 +8,24 @@
 
 namespace utils
 {
+    const std::vector<const char*> validationLayers = {
+        "VK_LAYER_KHRONOS_validation"
+    };
+
     class DebugUtils
     {
-        public:
+    public:
+        static constexpr bool enableValidationLayers =
+#ifdef NDEBUG
+false;
+#else
+            true;
+#endif
         DebugUtils();
         ~DebugUtils();
 
-        bool checkValidationLayerSupport();
-        std::vector<const char*> getRequiredExtensions();
+        static bool checkValidationLayerSupport();
+        static std::vector<const char*> getRequiredExtensions();
     };
 }
 #endif //DEBUGUTILS_H

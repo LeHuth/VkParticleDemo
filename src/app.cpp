@@ -6,12 +6,6 @@
 //
 using namespace sph;
 
-#ifdef NDEBUG
-const bool enableValidationLayers = false;
-#else
-const bool enableValidationLayers = true;
-#endif
-
 void VkApp::run()
 {
     initWindow();

@@ -10,19 +10,9 @@
 
 namespace sph
 {
-    const std::vector<const char*> validationLayers = {
-        "VK_LAYER_KHRONOS_validation"
-    };
-
     class VkApp
     {
     public:
-        static constexpr bool enableValidationLayers =
-#ifdef NDEBUG
-    false;
-#else
-            true;
-#endif
         VkApp() :
             _window(nullptr),
             _instance(nullptr),
