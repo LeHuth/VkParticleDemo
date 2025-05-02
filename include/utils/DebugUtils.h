@@ -5,12 +5,14 @@
 #ifndef DEBUGUTILS_H
 #define DEBUGUTILS_H
 #include <vector>
+#include <vulkan/vulkan.h>
 
 namespace utils
 {
     const std::vector<const char*> validationLayers = {
         "VK_LAYER_KHRONOS_validation"
     };
+
 
     class DebugUtils
     {
@@ -26,6 +28,13 @@ false;
 
         static bool checkValidationLayerSupport();
         static std::vector<const char*> getRequiredExtensions();
+        static bool isMacOS();
+        static VKAPI_ATTR VkBool32 VKAPI_CALL debugCallback(VkDebugUtilsMessageSeverityFlagBitsEXT messageSeverity,
+                                                        VkDebugUtilsMessageTypeFlagsEXT messageType,
+                                                        const VkDebugUtilsMessengerCallbackDataEXT* pCallbackData,
+                                                        void* pUserData);
+        static void populateDebugMessengerCreateInfo(VkDebugUtilsMessengerCreateInfoEXT& createInfo);
+
     };
 }
 #endif //DEBUGUTILS_H

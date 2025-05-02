@@ -15,6 +15,9 @@ namespace core
 
     private:
         VkInstance m_instance = VK_NULL_HANDLE;
+
+        static void populateDebugMessengerCreateInfo(VkDebugUtilsMessengerCreateInfoEXT& createInfo);
+
     };
 }
 #endif //VULKANINSTANCE_H

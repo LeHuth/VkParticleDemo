@@ -45,10 +45,10 @@ void VkApp::cleanup()
 
 void VkApp::createInstance()
 {
-    if (enableValidationLayers && !checkValidationLayerSupport())
+    /*if (enableValidationLayers && !checkValidationLayerSupport())
     {
         throw std::runtime_error("validation layers requested, but not available!");
-    }
+    }*/
 }
 
 void VkApp::setupDebugMessenger()
@@ -60,7 +60,7 @@ void VkApp::setupDebugMessenger()
 
 bool VkApp::checkValidationLayerSupport()
 {
-    uint32_t layerCount;
+    /*uint32_t layerCount;
     vkEnumerateInstanceLayerProperties(&layerCount, nullptr);
 
     std::vector<VkLayerProperties> availableLayers(layerCount);
@@ -85,12 +85,12 @@ bool VkApp::checkValidationLayerSupport()
         }
     }
 
-    return true;
+    return true;*/
 }
 
 std::vector<const char*> VkApp::getRequiredExtensions()
 {
-    uint32_t glfwExtensionCount = 0;
+    /*uint32_t glfwExtensionCount = 0;
     const char** glfwExtensions;
     glfwExtensions = glfwGetRequiredInstanceExtensions(&glfwExtensionCount);
 
@@ -102,5 +102,5 @@ std::vector<const char*> VkApp::getRequiredExtensions()
     }
 
 
-    return extensions;
+    return extensions;*/
 }

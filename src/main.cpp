@@ -16,6 +16,8 @@
 #include <algorithm> // Necessary for std::clamp
 #include <cstring>
 
+#include "../include/core/VulkanInstance.h"
+
 bool isMacOS()
 {
 #ifdef __APPLE__
@@ -1288,21 +1290,20 @@ private:
     static VKAPI_ATTR VkBool32 VKAPI_CALL debugCallback(VkDebugUtilsMessageSeverityFlagBitsEXT messageSeverity,
                                                         VkDebugUtilsMessageTypeFlagsEXT messageType,
                                                         const VkDebugUtilsMessengerCallbackDataEXT* pCallbackData,
-                                                        void* pUserData)
-    {
-        std::cerr << "validation layer: " << pCallbackData->pMessage << std::endl;
+                                                        void* pUserData);
 
-        return VK_FALSE;
-    }
 };
 
 int main()
 {
-    VulkanApp app;
+    //VulkanApp app;
 
     try
     {
-        app.run();
+        core::VulkanInstance my_instance;
+        std::cout << "VulkanInstance created successfully!" << std::endl;
+
+        //app.run();
     }
     catch (const std::exception& e)
     {

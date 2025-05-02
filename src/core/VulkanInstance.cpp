@@ -2,6 +2,10 @@
 // Created by Leo on 30.04.25.
 //
 #include "../../include/core/VulkanInstance.h"
+
+#include <iostream>
+#include <ostream>
+
 #include "../../include/utils/DebugUtils.h"
 
 #include <stdexcept>
@@ -27,10 +31,10 @@ VulkanInstance::VulkanInstance()
     createInfo.sType = VK_STRUCTURE_TYPE_INSTANCE_CREATE_INFO;
     createInfo.pApplicationInfo = &appInfo;
 
-    auto extensions = getRequiredExtensions();
+    auto extensions = utils::DebugUtils::getRequiredExtensions();
 
     // Check if the platform is Apple and enable VK_KHR_portability_enumeration extension
-    if (isMacOS())
+    if (utils::DebugUtils::isMacOS())
     {
         // You can implement this helper function to check macOS
         extensions.push_back(VK_KHR_PORTABILITY_ENUMERATION_EXTENSION_NAME);
@@ -47,7 +51,7 @@ VulkanInstance::VulkanInstance()
         createInfo.enabledLayerCount = static_cast<uint32_t>(utils::validationLayers.size());
         createInfo.ppEnabledLayerNames = utils::validationLayers.data();
 
-        populateDebugMessengerCreateInfo(debugCreateInfo);
+        utils::DebugUtils::populateDebugMessengerCreateInfo(debugCreateInfo);
         createInfo.pNext = (VkDebugUtilsMessengerCreateInfoEXT*)&debugCreateInfo;
     }
     else
@@ -57,7 +61,7 @@ VulkanInstance::VulkanInstance()
     }
 
     // Set the flag to enable portability on macOS
-    if (isMacOS())
+    if (utils::DebugUtils::isMacOS())
     {
         createInfo.flags |= VK_INSTANCE_CREATE_ENUMERATE_PORTABILITY_BIT_KHR;
     }
@@ -67,3 +71,10 @@ VulkanInstance::VulkanInstance()
         throw std::runtime_error("failed to create instance!");
     }
 }
+
+VulkanInstance::~VulkanInstance()
+{
+    vkDestroyInstance(m_instance, nullptr);
+}
+
+
