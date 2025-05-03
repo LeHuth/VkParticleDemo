@@ -12,12 +12,12 @@ namespace core
     public:
         VulkanInstance();
         ~VulkanInstance();
+        VkInstance& getInstance();
 
     private:
         VkInstance m_instance = VK_NULL_HANDLE;
 
         static void populateDebugMessengerCreateInfo(VkDebugUtilsMessengerCreateInfoEXT& createInfo);
-
     };
 }
 #endif //VULKANINSTANCE_H

@@ -4,11 +4,12 @@
 #include "../../include/utils/DebugUtils.h"
 
 #include <iostream>
-#include <vulkan/vulkan_core.h>
+#include <vulkan/vulkan.h>
 
 #include "GLFW/glfw3.h"
 
 using namespace utils;
+VkDebugUtilsMessengerEXT DebugUtils::m_debugMessenger = VK_NULL_HANDLE;
 
 DebugUtils::DebugUtils()
 {
@@ -64,9 +65,9 @@ std::vector<const char*> DebugUtils::getRequiredExtensions()
 }
 
 VKAPI_ATTR VkBool32 VKAPI_CALL DebugUtils::debugCallback(VkDebugUtilsMessageSeverityFlagBitsEXT messageSeverity,
-                                                        VkDebugUtilsMessageTypeFlagsEXT messageType,
-                                                        const VkDebugUtilsMessengerCallbackDataEXT* pCallbackData,
-                                                        void* pUserData)
+                                                         VkDebugUtilsMessageTypeFlagsEXT messageType,
+                                                         const VkDebugUtilsMessengerCallbackDataEXT* pCallbackData,
+                                                         void* pUserData)
 {
     std::cerr << "validation layer: " << pCallbackData->pMessage << std::endl;
 
@@ -91,5 +92,34 @@ bool DebugUtils::isMacOS()
 #else
     return false;
 #endif
+}
+
+VkResult DebugUtils::CreateDebugUtilsMessengerEXT(VkInstance instance,
+                                                  const VkDebugUtilsMessengerCreateInfoEXT* pCreateInfo,
+                                                  const VkAllocationCallbacks* pAllocator,
+                                                  VkDebugUtilsMessengerEXT* pDebugMessenger)
+{
+    auto func = (PFN_vkCreateDebugUtilsMessengerEXT)vkGetInstanceProcAddr(instance, "vkCreateDebugUtilsMessengerEXT");
+    if (func != nullptr)
+    {
+        return func(instance, pCreateInfo, pAllocator, pDebugMessenger);
+    }
+    else
+    {
+        return VK_ERROR_EXTENSION_NOT_PRESENT;
+    }
+}
+
+void DebugUtils::setupDebugMessenger(VkInstance instance)
+{
+    if (!enableValidationLayers) return;
+
+    VkDebugUtilsMessengerCreateInfoEXT createInfo;
+    populateDebugMessengerCreateInfo(createInfo);
+
+    if (DebugUtils::CreateDebugUtilsMessengerEXT(instance, &createInfo, nullptr, &m_debugMessenger) != VK_SUCCESS)
+    {
+        throw std::runtime_error("failed to set up debug messenger!");
+    }
 }
 

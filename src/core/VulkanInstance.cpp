@@ -63,6 +63,7 @@ VulkanInstance::VulkanInstance()
     // Set the flag to enable portability on macOS
     if (utils::DebugUtils::isMacOS())
     {
+        std::cout << "macOS detected, enabling VK_KHR_portability_enumeration extension" << std::endl;
         createInfo.flags |= VK_INSTANCE_CREATE_ENUMERATE_PORTABILITY_BIT_KHR;
     }
 
@@ -70,6 +71,12 @@ VulkanInstance::VulkanInstance()
     {
         throw std::runtime_error("failed to create instance!");
     }
+    std::cout << "Vulkan instance created successfully!" << std::endl;
+}
+
+VkInstance& VulkanInstance::getInstance()
+{
+    return m_instance;
 }
 
 VulkanInstance::~VulkanInstance()

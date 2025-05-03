@@ -16,7 +16,10 @@
 #include <algorithm> // Necessary for std::clamp
 #include <cstring>
 
+#include "../include/core/SurfaceInstance.h"
 #include "../include/core/VulkanInstance.h"
+#include "../include/core/WindowInstance.h"
+#include "../include/utils/DebugUtils.h"
 
 bool isMacOS()
 {
@@ -273,12 +276,12 @@ private:
         vkQueueSubmit(graphicsQueue, 1, &submitInfo, VK_NULL_HANDLE);
         vkQueueWaitIdle(graphicsQueue);
 
-        vkFreeCommandBuffers(device,commandPool,1, &commandBuffer);
+        vkFreeCommandBuffers(device, commandPool, 1, &commandBuffer);
     }
 
-    void createBuffer(VkDeviceSize size, VkBufferUsageFlags usage, VkMemoryPropertyFlags properties, VkBuffer& buffer, VkDeviceMemory& bufferMemory)
+    void createBuffer(VkDeviceSize size, VkBufferUsageFlags usage, VkMemoryPropertyFlags properties, VkBuffer& buffer,
+                      VkDeviceMemory& bufferMemory)
     {
-
         VkBufferCreateInfo bufferInfo{};
         bufferInfo.sType = VK_STRUCTURE_TYPE_BUFFER_CREATE_INFO;
         bufferInfo.size = size;
@@ -308,21 +311,21 @@ private:
 
     void createIndexBuffer()
     {
-
         VkDeviceSize stagingBufferSize = sizeof(indices[0]) * indices.size();
         VkBuffer stagingBuffer = VK_NULL_HANDLE;
         VkDeviceMemory stagingBufferMemory = VK_NULL_HANDLE;
 
         createBuffer(stagingBufferSize, VK_BUFFER_USAGE_INDEX_BUFFER_BIT | VK_BUFFER_USAGE_TRANSFER_SRC_BIT,
-                                        VK_MEMORY_PROPERTY_HOST_VISIBLE_BIT | VK_MEMORY_PROPERTY_HOST_COHERENT_BIT,
-                                        stagingBuffer,stagingBufferMemory);
+                     VK_MEMORY_PROPERTY_HOST_VISIBLE_BIT | VK_MEMORY_PROPERTY_HOST_COHERENT_BIT,
+                     stagingBuffer, stagingBufferMemory);
 
         void* data;
         vkMapMemory(device, stagingBufferMemory, 0, stagingBufferSize, 0, &data);
         memcpy(data, indices.data(), stagingBufferSize);
         vkUnmapMemory(device, stagingBufferMemory);
 
-        createBuffer(stagingBufferSize, VK_BUFFER_USAGE_TRANSFER_DST_BIT | VK_BUFFER_USAGE_INDEX_BUFFER_BIT, VK_MEMORY_PROPERTY_DEVICE_LOCAL_BIT,indexBuffer,indexBufferMemory);
+        createBuffer(stagingBufferSize, VK_BUFFER_USAGE_TRANSFER_DST_BIT | VK_BUFFER_USAGE_INDEX_BUFFER_BIT,
+                     VK_MEMORY_PROPERTY_DEVICE_LOCAL_BIT, indexBuffer, indexBufferMemory);
 
         copyBuffer(stagingBuffer, indexBuffer, stagingBufferSize);
 
@@ -332,21 +335,21 @@ private:
 
     void createVertexBuffer()
     {
-
         VkDeviceSize stagingBufferSize = sizeof(vertices[0]) * vertices.size();
         VkBuffer stagingBuffer = VK_NULL_HANDLE;
         VkDeviceMemory stagingBufferMemory = VK_NULL_HANDLE;
 
         createBuffer(stagingBufferSize, VK_BUFFER_USAGE_VERTEX_BUFFER_BIT | VK_BUFFER_USAGE_TRANSFER_SRC_BIT,
-                                        VK_MEMORY_PROPERTY_HOST_VISIBLE_BIT | VK_MEMORY_PROPERTY_HOST_COHERENT_BIT,
-                                        stagingBuffer,stagingBufferMemory);
+                     VK_MEMORY_PROPERTY_HOST_VISIBLE_BIT | VK_MEMORY_PROPERTY_HOST_COHERENT_BIT,
+                     stagingBuffer, stagingBufferMemory);
 
         void* data;
         vkMapMemory(device, stagingBufferMemory, 0, stagingBufferSize, 0, &data);
         memcpy(data, vertices.data(), stagingBufferSize);
         vkUnmapMemory(device, stagingBufferMemory);
 
-        createBuffer(stagingBufferSize, VK_BUFFER_USAGE_TRANSFER_DST_BIT | VK_BUFFER_USAGE_VERTEX_BUFFER_BIT, VK_MEMORY_PROPERTY_DEVICE_LOCAL_BIT,vertexBuffer,vertexBufferMemory);
+        createBuffer(stagingBufferSize, VK_BUFFER_USAGE_TRANSFER_DST_BIT | VK_BUFFER_USAGE_VERTEX_BUFFER_BIT,
+                     VK_MEMORY_PROPERTY_DEVICE_LOCAL_BIT, vertexBuffer, vertexBufferMemory);
 
         copyBuffer(stagingBuffer, vertexBuffer, stagingBufferSize);
 
@@ -1291,7 +1294,6 @@ private:
                                                         VkDebugUtilsMessageTypeFlagsEXT messageType,
                                                         const VkDebugUtilsMessengerCallbackDataEXT* pCallbackData,
                                                         void* pUserData);
-
 };
 
 int main()
@@ -1300,8 +1302,20 @@ int main()
 
     try
     {
+        core::WindowInstance my_window(800, 600);
+        std::cout << "WindowInstance created successfully!" << std::endl;
+        //utils::DebugUtils debugUtils;
         core::VulkanInstance my_instance;
         std::cout << "VulkanInstance created successfully!" << std::endl;
+        utils::DebugUtils::setupDebugMessenger(my_instance.getInstance());
+
+        core::SurfaceInstance my_surface(my_instance.getInstance(), my_window.getWindow());
+        std::cout << "SurfaceInstance created successfully!" << std::endl;
+
+        while (!glfwWindowShouldClose(my_window.getWindow()))
+        {
+            glfwPollEvents();
+        }
 
         //app.run();
     }

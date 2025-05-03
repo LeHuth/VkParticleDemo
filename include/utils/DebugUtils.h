@@ -25,16 +25,22 @@ false;
 #endif
         DebugUtils();
         ~DebugUtils();
-
+        static VkDebugUtilsMessengerEXT m_debugMessenger;
         static bool checkValidationLayerSupport();
         static std::vector<const char*> getRequiredExtensions();
         static bool isMacOS();
+        static void setupDebugMessenger(VkInstance instance);
         static VKAPI_ATTR VkBool32 VKAPI_CALL debugCallback(VkDebugUtilsMessageSeverityFlagBitsEXT messageSeverity,
-                                                        VkDebugUtilsMessageTypeFlagsEXT messageType,
-                                                        const VkDebugUtilsMessengerCallbackDataEXT* pCallbackData,
-                                                        void* pUserData);
+                                                            VkDebugUtilsMessageTypeFlagsEXT messageType,
+                                                            const VkDebugUtilsMessengerCallbackDataEXT* pCallbackData,
+                                                            void* pUserData);
         static void populateDebugMessengerCreateInfo(VkDebugUtilsMessengerCreateInfoEXT& createInfo);
+        static VkResult CreateDebugUtilsMessengerEXT(VkInstance instance,
+                                                     const VkDebugUtilsMessengerCreateInfoEXT* pCreateInfo,
+                                                     const VkAllocationCallbacks* pAllocator,
+                                                     VkDebugUtilsMessengerEXT* pDebugMessenger);
 
+    private:
     };
 }
 #endif //DEBUGUTILS_H

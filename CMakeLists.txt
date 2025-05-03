@@ -9,7 +9,11 @@ add_executable(VulkanParticleDemo src/main.cpp
         include/core/VulkanInstance.h
         src/core/VulkanInstance.cpp
         include/utils/DebugUtils.h
-        src/utils/DebugUtils.cpp)
+        src/utils/DebugUtils.cpp
+        include/core/SurfaceInstance.h
+        src/core/SurfaceInstance.cpp
+        include/core/WindowInstance.h
+        src/core/WindowInstance.cpp)
 
 # Find Vulkan
 find_package(Vulkan REQUIRED)
