@@ -1304,11 +1304,8 @@ int main()
     {
         core::WindowInstance my_window(800, 600);
         std::cout << "WindowInstance created successfully!" << std::endl;
-        //utils::DebugUtils debugUtils;
         core::VulkanInstance my_instance;
         std::cout << "VulkanInstance created successfully!" << std::endl;
-        utils::DebugUtils::setupDebugMessenger(my_instance.getInstance());
-
         core::SurfaceInstance my_surface(my_instance.getInstance(), my_window.getWindow());
         std::cout << "SurfaceInstance created successfully!" << std::endl;
 
@@ -1316,6 +1313,8 @@ int main()
         {
             glfwPollEvents();
         }
+
+
 
         //app.run();
     }

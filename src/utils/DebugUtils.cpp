@@ -123,3 +123,21 @@ void DebugUtils::setupDebugMessenger(VkInstance instance)
     }
 }
 
+void DebugUtils::DestroyDebugUtilsMessengerEXT(VkInstance instance, VkDebugUtilsMessengerEXT debugMessenger,
+                                   const VkAllocationCallbacks* pAllocator)
+{
+    auto func = (PFN_vkDestroyDebugUtilsMessengerEXT)vkGetInstanceProcAddr(instance, "vkDestroyDebugUtilsMessengerEXT");
+    if (func != nullptr)
+    {
+        func(instance, debugMessenger, pAllocator);
+    }
+}
+
+void DebugUtils::cleanupDebugMessenger(VkInstance instance)
+{
+    if (enableValidationLayers)
+    {
+        DestroyDebugUtilsMessengerEXT(instance, m_debugMessenger, nullptr);
+    }
+}
+

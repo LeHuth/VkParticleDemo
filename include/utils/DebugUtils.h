@@ -30,6 +30,9 @@ false;
         static std::vector<const char*> getRequiredExtensions();
         static bool isMacOS();
         static void setupDebugMessenger(VkInstance instance);
+        static void cleanupDebugMessenger(VkInstance instance);
+        static void DestroyDebugUtilsMessengerEXT(VkInstance instance, VkDebugUtilsMessengerEXT debugMessenger,
+                                                  const VkAllocationCallbacks* pAllocator);
         static VKAPI_ATTR VkBool32 VKAPI_CALL debugCallback(VkDebugUtilsMessageSeverityFlagBitsEXT messageSeverity,
                                                             VkDebugUtilsMessageTypeFlagsEXT messageType,
                                                             const VkDebugUtilsMessengerCallbackDataEXT* pCallbackData,

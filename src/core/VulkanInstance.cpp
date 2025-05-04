@@ -72,6 +72,8 @@ VulkanInstance::VulkanInstance()
         throw std::runtime_error("failed to create instance!");
     }
     std::cout << "Vulkan instance created successfully!" << std::endl;
+    utils::DebugUtils::setupDebugMessenger(m_instance);
+
 }
 
 VkInstance& VulkanInstance::getInstance()
@@ -81,6 +83,7 @@ VkInstance& VulkanInstance::getInstance()
 
 VulkanInstance::~VulkanInstance()
 {
+    utils::DebugUtils::cleanupDebugMessenger(m_instance);
     vkDestroyInstance(m_instance, nullptr);
 }
 
